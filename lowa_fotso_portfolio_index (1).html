@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lowa Fotso Portfolio — Cyberpunk Edition</title>
+
+  <style>
+    /* ==================== GLOBAL ==================== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Inter", sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+      background: #000;
+    }
+
+    /* ==================== VIDEO BACKGROUND ==================== */
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -3;
+    }
+
+    /* ==================== ANIMATED GRADIENT OVERLAY ==================== */
+    .gradient-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(120deg, rgba(0,255,255,0.25), rgba(255,0,255,0.25));
+      animation: gradientMove 8s infinite alternate;
+      z-index: -2;
+    }
+
+    @keyframes gradientMove {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(180deg); }
+    }
+
+    /* ==================== PARTICLES CANVAS ==================== */
+    #particles {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+    }
+
+    /* ==================== MUSIC TOGGLE ==================== */
+    #music-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 18px;
+      font-size: 20px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.4);
+      backdrop-filter: blur(6px);
+      border-radius: 12px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    /* ==================== PAGE CONTENT ==================== */
+    .content {
+      max-width: 900px;
+      margin: 80px auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #typed {
+      font-size: 36px;
+      font-weight: 800;
+      color: cyan;
+      text-shadow: 0 0 15px cyan;
+      margin-bottom: 40px;
+    }
+
+    /* ==================== GLASS CARDS ==================== */
+    .card {
+      background: rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 24px;
+      margin: 22px 0;
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(12px);
+      text-align: left;
+    }
+
+    h2 { color: #7df9ff; margin-bottom: 10px; }
+    p, li { color: #d0eaff; font-size: 16px; line-height: 1.6; }
+  </style>
+</head>
+
+<body>
+
+  <!-- VIDEO BACKGROUND -->
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="assets/background.mp4" type="video/mp4" />
+  </video>
+
+  <!-- GRADIENT + PARTICLES -->
+  <div class="gradient-overlay"></div>
+  <canvas id="particles"></canvas>
+
+  <!-- BACKGROUND MUSIC -->
+  <audio id="bg-music" src="assets/music.mp3" loop></audio>
+  <button id="music-toggle">🔊</button>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- PROFILE IMAGE -->
+    <img src="assets/me.jpg" alt="Lowa Fotso" style="width:150px;height:150px;border-radius:50%;object-fit:cover;border:3px solid cyan;box-shadow:0 0 25px cyan;margin-bottom:25px;"/>
+    <h1 id="typed"></h1>
+
+    <div class="card">
+      <h2>Who Am I?</h2>
+      <p>I am <b>LOWA FOTSO LLOYD WAYNE</b>, a passionate young Network Technician & System Administrator currently in Year 2 (Network & Security).
+      Skilled in advanced networking (Cisco), NAS backups (TrueNAS & Synology), virtualization labs (VirtualBox), troubleshooting, and designing enterprise-ready infrastructures.</p>
+    </div>
+
+    <div class="card">
+      <h2>Featured Project — Enterprise Backup Server</h2>
+      <p>I designed an affordable, scalable backup system for enterprises using TrueNAS/Synology, with snapshot automation, rsync replication, and offsite backup rotation. This solution fits both small and large companies depending on their budget.</p>
+    </div>
+
+    <div class="card">
+      <h2>Contact Information</h2>
+      <p>Email: <b>lowafotso@gmail.com</b><br>
+      Phone: <b>+237 670506093</b><br>
+      Location: <b>Kotto, Douala, Cameroon</b><br>
+      Date of Birth: <b>12/07/2008</b></p>
+    </div>
+
+    <div class="card">
+          <h2>Quick Links</h2>
+          <p><b>https://github.com/lloyd-wayne</b></p>
+        </div>
+    </div>
+
+    
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    /* ===== Typing Effect ===== */
+    const text = "LOWA FOTSO LLOYD WAYNE — Network & System Admin";
+    let i = 0;
+    function type() {
+      if (i < text.length) {
+        document.getElementById("typed").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, 60);
+      }
+    }
+    type();
+
+    /* ===== Music Toggle ===== */
+    const music = document.getElementById("bg-music");
+    const btn = document.getElementById("music-toggle");
+    let playing = false;
+
+    btn.onclick = () => {
+      if (!playing) { music.play(); btn.innerText = "🔈"; }
+      else { music.pause(); btn.innerText = "🔊"; }
+      playing = !playing;
+    };
+
+    /* ===== Particles ===== */
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 1,
+        speedX: (Math.random() - 0.5) * 0.6,
+        speedY: (Math.random() - 0.5) * 0.6
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      particles.forEach(p => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+        ctx.fillStyle = "cyan";
+        ctx.shadowColor = "cyan";
+        ctx.shadowBlur = 10;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+  </script>
+</body>
+</html>

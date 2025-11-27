@@ -97,4 +97,4 @@ Location: Kotto, Douala, Cameroon
 
 
 🧑‍💻 Author
-LOWA FOTSO LLOYD WAYNE** — Network Technician & System Administrator.
+LOWA FOTSO LLOYD WAYNE — Network Technician & System Administrator.
